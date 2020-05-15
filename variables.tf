@@ -13,10 +13,18 @@ variable "github_conf" {
   #  error_message = "Validation Error: github_conf.oauth_token_ssm_parameter_arn is not valid."
   #}
 }
-variable "healthcheck_conf" {
+variable "healthchecks" {
   type = list(object({
-    endpoint_url     = string,
-    application_name = string
+    fqdn               = string,
+    port               = number,
+    type               = string,
+    resource_path      = string,
+    evaluation_periods = number,
+    alarm_name         = string
   }))
 }
 
+variable "healthcheck_regions" {
+  type    = list(string)
+  default = []
+}

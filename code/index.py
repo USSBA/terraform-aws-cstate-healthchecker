@@ -31,21 +31,19 @@ def fetch_template(template_file_path, repo, branch = "master"):
 def lambda_handler(event, context):
   sns_message = json.loads(event['Records'][0]['Sns']['Message'])
   current_state = sns_message['NewStateValue']
+  application_name = sns_message['AlarmName']
   print(f"INFO: NewStateValue: {current_state}")
-  #TODO: Get this from the event
-  application_name="sbagov"
-
-  parameter_name = os.environ.get("GITHUB_OAUTH_TOKEN_SSM_PARAM_NAME")
-  #gh_token = ssm.get_parameter(Name='/sba-status/github_token', WithDecryption=True)['Parameter']['Value']
-  gh_token = ssm.get_parameter(Name=parameter_name, WithDecryption=True)['Parameter']['Value']
-  gh = Github(gh_token)
-
   #repo_org="USSBA"
   #repo_name="sba-status"
   #branch="master"
   repo_org  = os.environ.get('GITHUB_ORG')
   repo_name = os.environ.get('GITHUB_REPO')
   branch    = os.environ.get('GITHUB_REPO_BRANCH')
+
+  parameter_name = os.environ.get("GITHUB_OAUTH_TOKEN_SSM_PARAM_NAME")
+  #gh_token = ssm.get_parameter(Name='/sba-status/github_token', WithDecryption=True)['Parameter']['Value']
+  gh_token = ssm.get_parameter(Name=parameter_name, WithDecryption=True)['Parameter']['Value']
+  gh = Github(gh_token)
 
   latest_file=f"content/issues/{application_name}-latest.md"
   template_file_path=f"{latest_file}.template"

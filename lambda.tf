@@ -18,6 +18,15 @@ resource "aws_iam_role_policy" "lambda_role_policy" {
   policy      = data.aws_iam_policy_document.lambda_role_policy.json
   role        = aws_iam_role.lambda_role.id
 }
+
+resource "aws_lambda_permission" "sns" {
+  statement_id  = "AllowExecutionFromSNS"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.function.function_name
+  principal     = "sns.amazonaws.com"
+  source_arn    = aws_sns_topic.topic.arn
+}
+
 data "archive_file" "package" {
   type        = "zip"
   source_dir  = "${path.module}/code/"
@@ -36,7 +45,7 @@ resource "aws_lambda_function" "function" {
       GITHUB_ORG                        = var.github_conf.organization_name
       GITHUB_REPO                       = var.github_conf.repository_name
       GITHUB_REPO_BRANCH                = var.github_conf.branch_name
-      GITHUB_OAUTH_TOKEN_SSM_PARAM_NAME = var.github_conf.oauth_token_ssm_paramter_arn
+      GITHUB_OAUTH_TOKEN_SSM_PARAM_NAME = join("", regex("arn:aws:ssm:.*:parameter(.*)", var.github_conf.oauth_token_ssm_paramter_arn))
     }
   }
 }
