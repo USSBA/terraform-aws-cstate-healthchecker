@@ -8,12 +8,12 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_exec_policy" {
 }
 data "aws_iam_policy_document" "lambda_role_policy" {
   statement {
-    effect    = "Allow"
-    actions   = [
+    effect = "Allow"
+    actions = [
       "ssm:GetParameter",
       "ssm:GetParameters",
       "ssm:GetParametersByPath",
-      ]
+    ]
     resources = [var.github_conf.oauth_token_ssm_paramter_arn]
   }
 }

@@ -7,6 +7,9 @@ resource "aws_route53_health_check" "healthchecks" {
   failure_threshold = "5"
   request_interval  = "30"
   regions           = length(var.healthcheck_regions) == 0 ? null : var.healthcheck_regions
+  tags = {
+    Name = var.healthchecks[count.index].alarm_name
+  }
 }
 
 resource "aws_cloudwatch_metric_alarm" "alarm" {
