@@ -9,7 +9,11 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_exec_policy" {
 data "aws_iam_policy_document" "lambda_role_policy" {
   statement {
     effect    = "Allow"
-    actions   = ["ssm:GetParameter"]
+    actions   = [
+      "ssm:GetParameter",
+      "ssm:GetParameters",
+      "ssm:GetParametersByPath",
+      ]
     resources = [var.github_conf.oauth_token_ssm_paramter_arn]
   }
 }
@@ -38,7 +42,7 @@ resource "aws_lambda_function" "function" {
   function_name    = var.name_prefix
   role             = aws_iam_role.lambda_role.arn
   handler          = "index.lambda_handler"
-  runtime          = "python3.8"
+  runtime          = "python3.7"
   timeout          = 10
   environment {
     variables = {

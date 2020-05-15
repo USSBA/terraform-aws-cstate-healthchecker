@@ -9,7 +9,7 @@ resource "aws_route53_health_check" "healthchecks" {
   regions           = length(var.healthcheck_regions) == 0 ? null : var.healthcheck_regions
 }
 
-resource "aws_cloudwatch_metric_alarm" "foobar" {
+resource "aws_cloudwatch_metric_alarm" "alarm" {
   count               = length(var.healthchecks)
   alarm_name          = var.healthchecks[count.index].alarm_name
   comparison_operator = "LessThanOrEqualToThreshold"
@@ -19,9 +19,9 @@ resource "aws_cloudwatch_metric_alarm" "foobar" {
   period              = "60"
   statistic           = "Average"
   threshold           = "50"
-  alarm_description   = "This monitors R53 for ${var.healthchecks[count.index].alarm_name}"
-  alarm_actions       = aws_sns_topic.topic.arn
-  ok_actions          = aws_sns_topic.topic.arn
+  alarm_description   = "R53 health checks for ${var.healthchecks[count.index].alarm_name}"
+  alarm_actions       = [aws_sns_topic.topic.arn]
+  ok_actions          = [aws_sns_topic.topic.arn]
   dimensions = {
     HealthCheckId = aws_route53_health_check.healthchecks[count.index].id
   }
