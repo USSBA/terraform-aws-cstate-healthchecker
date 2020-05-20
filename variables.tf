@@ -1,14 +1,30 @@
+variable "name_prefix" {
+  type = string
+}
 variable "github_conf" {
   type = object({
-    repository = string,
-    organization = string,
-    oauth_token_ssm_paramter_name = string
+    branch_name                  = string,
+    organization_name            = string,
+    repository_name              = string,
+    oauth_token_ssm_paramter_arn = string
   })
+  #validation {
+  #  condition     = join(":", regex("arn:aws:(ssm):.*:(parameter)/.*", var.github_conf.oauth_token_ssm_paramter_arn)) == "ssm:parameter"
+  #  error_message = "Validation Error: github_conf.oauth_token_ssm_parameter_arn is not valid."
+  #}
 }
-variable "healthcheck_conf" {
+variable "healthchecks" {
   type = list(object({
-    endpoint_url = string,
-    template_file_name = string
+    fqdn               = string,
+    port               = number,
+    type               = string,
+    resource_path      = string,
+    evaluation_periods = number,
+    alarm_name         = string
   }))
 }
 
+variable "healthcheck_regions" {
+  type    = list(string)
+  default = []
+}
