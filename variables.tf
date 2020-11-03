@@ -28,3 +28,9 @@ variable "healthcheck_regions" {
   type    = list(string)
   default = []
 }
+
+variable "retention_period_in_minutes" {
+  type = number
+  default = -1
+  description = "Retain events that persist longer than this threshold. Default is -1 resulting in all events being retained."
+}

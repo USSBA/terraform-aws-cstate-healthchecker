@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.0.1
+
+- An event retention period has been added so that only events breaching this threshold will be retained.
+
 ## v2.0.0
 
 - Terraform v0.13 Upgrade

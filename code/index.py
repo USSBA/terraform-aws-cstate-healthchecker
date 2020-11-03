@@ -45,9 +45,10 @@ def lambda_handler(event, context):
   #repo_org="USSBA"
   #repo_name="sba-status"
   #branch="master"
-  repo_org  = os.environ.get('GITHUB_ORG')
+  repo_org = os.environ.get('GITHUB_ORG')
   repo_name = os.environ.get('GITHUB_REPO')
-  branch    = os.environ.get('GITHUB_REPO_BRANCH')
+  branch = os.environ.get('GITHUB_REPO_BRANCH')
+  retention_period = int(os.environ.get('RETENTION_PERIOD'))
 
   parameter_name = os.environ.get("GITHUB_OAUTH_TOKEN_SSM_PARAM_NAME")
   #gh_token = ssm.get_parameter(Name='/sba-status/github_token', WithDecryption=True)['Parameter']['Value']
@@ -66,7 +67,7 @@ def lambda_handler(event, context):
     old_file_contents = base64.b64decode(old_file.content).decode("utf-8")
     if current_state == "OK":
       # If the message was created within the last 5 minutes is will be discarded
-      if message_age(old_file_contents) <= 5:
+      if message_age(old_file_contents) <= retention_period:
         try:
           repo.delete_file(latest_file, message=f"Automatic update for {application_name}: delete latest_file", branch=branch, sha=old_file.sha)
           print(f"INFO: Latest file removed, event within acceptable timeframe")
