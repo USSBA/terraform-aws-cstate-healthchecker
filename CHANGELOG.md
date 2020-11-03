@@ -1,6 +1,6 @@
 # Changelog
 
-## v2.0.1
+## v2.1.0
 
 - An event retention period has been added so that only events breaching this threshold will be retained.
 

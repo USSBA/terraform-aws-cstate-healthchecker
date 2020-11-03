@@ -30,7 +30,7 @@ variable "healthcheck_regions" {
 }
 
 variable "retention_period_in_minutes" {
-  type = number
-  default = -1
+  type        = number
+  default     = -1
   description = "Retain events that persist longer than this threshold. Default is -1 resulting in all events being retained."
 }
