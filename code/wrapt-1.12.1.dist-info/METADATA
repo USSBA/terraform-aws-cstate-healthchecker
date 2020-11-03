@@ -165,5 +165,3 @@ and unit tests, can be obtained from github.
    :target: https://coveralls.io/github/GrahamDumpleton/wrapt?branch=develop
 .. |PyPI| image:: https://img.shields.io/pypi/v/wrapt.svg
    :target: https://pypi.python.org/pypi/wrapt
-
-

@@ -50,8 +50,7 @@ resource "aws_lambda_function" "function" {
       GITHUB_REPO                       = var.github_conf.repository_name
       GITHUB_REPO_BRANCH                = var.github_conf.branch_name
       GITHUB_OAUTH_TOKEN_SSM_PARAM_NAME = join("", regex("arn:aws:ssm:.*:parameter(.*)", var.github_conf.oauth_token_ssm_paramter_arn))
+      RETENTION_PERIOD                  = var.retention_period_in_minutes
     }
   }
 }
-
-
