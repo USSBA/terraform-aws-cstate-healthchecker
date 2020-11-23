@@ -91,8 +91,8 @@ def lambda_handler(event, context):
         except Exception as err:
           print(f"ERROR: Could not create new resolved_file: path={resolved_file_path}")
           print(err)
-      else:
-        print(f"INFO: Latest file exists, current_state={current_state}; no updates necessary")
+    else:
+      print(f"INFO: Latest file exists, current_state={current_state}; no updates necessary")
   except:
     # File not found, create instead of update
     if current_state == "ALARM":
