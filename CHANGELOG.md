@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.1.1
+
+- Fixing syntax error
+
 ## v2.1.0
 
 - An event retention period has been added so that only events breaching this threshold will be retained.
