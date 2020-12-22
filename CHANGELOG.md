@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.1.2
+
+- Fixing error with event clearing
+
 ## v2.1.1
 
 - Fixing syntax error
