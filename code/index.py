@@ -61,16 +61,18 @@ def lambda_handler(event, context):
   repo = gh.get_repo(f"{repo_org}/{repo_name}")
 
   try:
+    print(f"INFO: {application_name} Checking for existing latest_file={latest_file} ")
     # Try to get contents of `latest` file, continue if exists, throw exception if it doesnt
     old_file = repo.get_contents(latest_file, ref=branch)
+    print(f"INFO: {application_name} Found latest file={latest_file} with sha={old_file.sha}")
     # Found Existing `latest` File, implying active incident; updating if necessary
     old_file_contents = base64.b64decode(old_file.content).decode("utf-8")
     if current_state == "OK":
       # If the message was created within the last 5 minutes is will be discarded
-      if message_age(old_file_contents) <= retention_period:
+      if age_in_minutes(old_file_contents) <= retention_period:
         try:
           repo.delete_file(latest_file, message=f"Automatic update for {application_name}: delete latest_file", branch=branch, sha=old_file.sha)
-          print(f"INFO: Latest file removed, event within acceptable timeframe")
+          print(f"INFO: {application_name} Latest file removed, event within acceptable timeframe")
         except Exception as err:
           print(f"ERROR: Could not delete old latest file: path={latest_file}")
           print(err)
@@ -92,7 +94,7 @@ def lambda_handler(event, context):
           print(f"ERROR: Could not create new resolved_file: path={resolved_file_path}")
           print(err)
     else:
-      print(f"INFO: Latest file exists, current_state={current_state}; no updates necessary")
+      print(f"INFO: {application_name} Latest file={latest_file} exists, current_state={current_state}; no updates necessary")
   except:
     # File not found, create instead of update
     if current_state == "ALARM":
@@ -113,7 +115,7 @@ def lambda_handler(event, context):
         print("ERROR: Could not create new file")
         raise
     else:
-      print(f"INFO: Latest file does not exist, current_state={current_state}; no updates necessary")
+      print(f"INFO: Latest file {latest_file} does not exist, current_state={current_state}; no updates necessary")
 
 
 if __name__ == '__main__':
