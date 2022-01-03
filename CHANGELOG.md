@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.0.0
+
+- Bumping to support terraform > 0.13
+
 ## v2.1.2
 
 - Fixing error with event clearing
