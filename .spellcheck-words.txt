@@ -1,0 +1,11 @@
+affirmer
+ARN
+Changelog
+CSTATE
+healthcheck
+HealthChecks
+ParameterStore
+resolvedWhen
+Scalable
+Serverless
+Terraform

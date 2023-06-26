@@ -1,13 +1,13 @@
 # CSTATE Health Checker Module
 
-## Descripton
+## Description
 
 [cstate](https://github.com/cstate/cstate) is a powerful tool to allow displaying of system status.  However, being a statically rendered site, it doesn't include any native healthcheck capabilities.  This project provides that capability.  It uses AWS Route53 HealthChecks to automatically create new outage notifications in your cstate github repository, and resolve them when the service becomes available.
 
 ## Features
 
 * Serverless (AWS Lambda)
-* Configuratble ability to ignore short downtime if desired
+* Configurable ability to ignore short downtime if desired
 * Ability to ignore disruptions of a set duration, e. g. ignore downtime incidents of X minutes or less
 * High Scalable Architecture
 * Easy to use
@@ -74,7 +74,7 @@ module "healthchecks" {
       alarm_name         = "second"
     }
   ]
-  retention_period_in_minutes = 5 # Number of consecutive minutes before incident should persit in history; otherwise considered acceptable downtime and incident will be removed as a result
+  retention_period_in_minutes = 5 # Number of consecutive minutes before incident should persist in history; otherwise considered acceptable downtime and incident will be removed as a result
   healthcheck_regions = [ # A list of aws regions from which to test connectivity
     "us-east-1",
     "us-west-1",
