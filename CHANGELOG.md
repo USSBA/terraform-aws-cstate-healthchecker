@@ -1,5 +1,10 @@
 # Changelog
 
+## v4.0.0
+
+- Bumped Terraform version to `~> 1.5` and provider to `~> 5.0`.
+- Bumped `hashicorp/archive` from `~> 1.2` to `~> 2.0` for ARM CPU support.
+
 ## v3.0.0
 
 - Bumping to support terraform > 0.13
